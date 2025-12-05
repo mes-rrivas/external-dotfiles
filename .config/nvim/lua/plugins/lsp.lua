@@ -25,14 +25,12 @@ return {
       "mason-org/mason-lspconfig.nvim",
     },
     config = function(_, opts)
-      local lspConfig = require("lspconfig")
-
       for server, config in pairs(opts.servers) do
         -- LSP capabilities for completions
         local capabilities = vim.lsp.protocol.make_client_capabilities()
         capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
         config.capabilities = capabilities
-        lspConfig[server].setup(config)
+        vim.lsp.config(server, config)
       end
       vim.lsp.enable("pyright")
     end,
@@ -82,15 +80,15 @@ return {
         lua = { "stylua" },
         cs = { "csharpier" },
       },
-      formatters = {
-        csharpier = {
-          command = "dotnet-csharpier",
-          args = { "--write-stdout" },
-        },
-        stylua = {
-          prepend_args = { "--indent-type", "Spaces", "--indent-width", "2" },
-        },
-      },
+      -- formatters = {
+      --   csharpier = {
+      --     command = "dotnet-csharpier",
+      --     args = { "--write-stdout" },
+      --   },
+      --   stylua = {
+      --     prepend_args = { "--indent-type", "Spaces", "--indent-width", "2" },
+      --   },
+      -- },
     },
   },
   "nvim-lua/plenary.nvim",
